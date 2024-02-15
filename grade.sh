@@ -5,15 +5,7 @@ rm -rf grading-area
 
 mkdir grading-area
 
-git clone $1 student-submission
-echo 'Finished cloning'
-
-
-# Draw a picture/take notes on the directory structure that's set up after
-# getting to this point
-
-# Then, add here code to compile and run, and do any post-processing of the
-# tests
+git clone $1 student-submission 2> git-output.txt
 
 cp student-submission/*.java grading-area
 cp TestListExamples.java grading-area
