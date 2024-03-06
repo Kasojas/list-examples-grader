@@ -65,21 +65,21 @@ fi
 
 java -cp $CPATH org.junit.runner.JUnitCore TestListExamples > output.txt
 
-cat output.txt
-
 test=$(cat output.txt | tail -n 2 | head -n 1)
 fails=$(echo $test | grep 'Failures:')
-tests=$(echo $test | grep 'Tests run:')
-testS=$(echo $test | grep 'test)')
-tested1=$(echo $tests | awk -F'[, ]' '{print $3}' )
-tested2=$(echo $testS | awk -F'[( ]' '{print $2}')
-fail=$(echo $test | awk -F'[, ]' '{print $6}')
-success=$(( $tests - $fail ))
+testsrun=$(echo $test | grep 'Tests run:')
+testedrunoutput=$(echo $testsrun | awk -F'[, ]' '{print $3}' )
+failed=$(echo $test | awk -F'[, ]' '{print $6}')
 
-echo "Score: $success / $fail"
-
-echo $test
-echo "this"
-echo $tested2
-echo "next"
-echo $fail
+if ! [ -z $failed ]
+then
+    echo $(( $testedrunoutput - $failed ))
+    success=$(( $testedrunoutput - $failed ))
+    failedscore=$(( $success / $testedrunoutput ))
+    echo "Score: $success"
+    echo "$failed Test(s) Failed"
+    exit
+else
+    echo "Score: 100"
+    exit
+fi
